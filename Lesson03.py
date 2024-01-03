@@ -1,5 +1,5 @@
 
-import datetime
+import datetime # implemented in task 2
 #Task1
 first_name = input("Enter your name: ")
 second_name = input("Enter your surname: ")
