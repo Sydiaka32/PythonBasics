@@ -9,9 +9,10 @@ number = 0
 while number != -1:
     number = input("Введіть число (-1 для завершення): ")
 
-    if number == -1:
+    if number == '-1':
         break
 
 
 sum += float(number)
 count += 1
+
