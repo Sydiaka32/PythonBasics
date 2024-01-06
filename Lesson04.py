@@ -19,5 +19,3 @@ while True:
 average = sum / count
 print(f"Середнє арифметичне ваших чисел: {average}")
 
-#pull request does not sent
-#again
