@@ -1,20 +1,22 @@
 from typing import List
 
 
-def logger(func):
-    def wrapped(num_list: List):
-        result = func(num_list)
-        with open("decorator.txt", "w") as f:
-            f.write(str(result))
-        return result
-    return wrapped
+def logger(filename):
+    def decorator(func):
+        def wrapped(num_list: List):
+            result = func(num_list)
+            with open(filename, "w") as f:
+                f.write(str(result))
+            return result
+        return wrapped
+    return decorator
 
 
+@logger("file_decorator.txt")
 def summator(num_list: List) -> int:
     return sum(num_list)
 
 
-summator = logger(summator)
 
 
 def main():
