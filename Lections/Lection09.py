@@ -25,6 +25,13 @@ def main():
     skeleton = Skeleton()
     print("Hero vs Skeleton")
     hero.attack(skeleton)
+    skeleton_list = []
+    for _ in range(1000):
+        top_skelet = Skeleton()
+        skeleton_list.append(top_skelet)
+
+    for enemy in skeleton_list:
+        hero.attack(enemy)
 
 
 if __name__ == '__main__':
