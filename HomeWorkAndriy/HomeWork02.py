@@ -24,3 +24,11 @@ def duplicate(list):
     return correct_list
 
 print("Масив без дублікатів: ", duplicate(list))
+
+#1.2)
+
+def get_top(list):
+    top_three = sorted(list, reverse=True)[:3]
+    return top_three
+
+print("Топ три значення: ", get_top(list))
