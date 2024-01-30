@@ -11,3 +11,16 @@
 #1.4) Вивести зазначений масив в зворотньому порядку.
 
 
+list = [10, 11, 2, 3, 5, 8, 23, 11, 2, 5, 76, 43, 2, 32, 76, 3, 10, 0, 1]
+print("Вихідний массив: ", list)
+
+#1.1)
+
+def duplicate(list):
+    correct_list = []
+    for num in list:
+        if num not in correct_list:
+            correct_list.append(num)
+    return correct_list
+
+print("Масив без дублікатів: ", duplicate(list))
