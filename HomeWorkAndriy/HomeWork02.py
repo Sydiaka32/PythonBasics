@@ -40,3 +40,13 @@ def get_min_index(list):
     return min_index
 
 print("Індекс найменшого числа: ", get_min_index(list))
+
+#1.4)
+
+def reverse_list(list):
+    reversed_list = list[::-1]
+    return reversed_list
+
+print("Перевернутий масив: ", reverse_list(list))
+
+
