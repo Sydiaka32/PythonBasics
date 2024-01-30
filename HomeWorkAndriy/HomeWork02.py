@@ -32,3 +32,11 @@ def get_top(list):
     return top_three
 
 print("Топ три значення: ", get_top(list))
+
+#1.3)
+
+def get_min_index(list):
+    min_index = list.index(min(list))
+    return min_index
+
+print("Індекс найменшого числа: ", get_min_index(list))
