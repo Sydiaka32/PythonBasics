@@ -1,3 +1,4 @@
+import json
 from typing import List, Union
 
 
@@ -14,22 +15,15 @@ class Parser:
     def __init__(self, reader: Reader):
         self.reader = reader
 
-    def _parse_string(self, s: str)-> dict:
-        dict = {}
+    def _parse_string(self, s: str) -> dict:
         object_list = s.split(", ")
-        for el in object_list:
-            tmp_list = el.split(" = ")
-            dict[tmp_list[0]] = tmp_list[1]
-        return dict
+        return {tmp_list[0]: tmp_list[1] for el in object_list for tmp_list in [el.split(" = ")]}
 
-    def parse(self)-> List[dict]:
-        #car = BMW, color = Red, weight = 155, transmission = Manual, Engine = 2.0
-        result_list = []
+    def parse(self) -> List[dict]:
+        # car = BMW, color = Red, weight = 155, transmission = Manual, Engine = 2.0
         data = self.reader.read()
         car_list = data.split("\n")
-        for el in car_list:
-            result_list.append(self._parse_string(el))
-        return result_list
+        return [self._parse_string(el) for el in car_list]
 
 
 class Car:
@@ -45,59 +39,66 @@ class Car:
                f"transmission = {self.transmission}" \
                f"engine = {self.engine}"
 
+    def to_json(self):
+        return {"color": self.color,
+                "weight": self.weight,
+                "transmission": self.transmission,
+                "engine": self.engine
+                }
+
+
 class BMW(Car):
     pass
+
 
 class Seat(Car):
     pass
 
+
 class Audi(Car):
     pass
+
 
 class Chevrolet(Car):
     pass
 
+
 class Jaguar(Car):
     pass
+
 
 class Opel(Car):
     pass
 
-def serialize(car_list: List[dict])-> List[Union[BMW, Seat, Audi, Chevrolet, Jaguar, Opel]]:
-    obj_list = []
-    for el in car_list:
-        if el["car"] == "BMW":
-            tmp_obj = BMW(color=el["color"],
-                          weight=el["weight"],
-                          transmission=el["transmission"],
-                          engine=el["engine"])
-        elif el["car"] == "Seat":
-            tmp_obj = Seat(color=el["color"],
-                           weight=el["weight"],
-                           transmission=el["transmission"],
-                           engine=el["engine"])
-        elif el["car"] == "Audi":
-            tmp_obj = Audi(color=el["color"],
-                           weight=el["weight"],
-                           transmission=el["transmission"],
-                           engine=el["engine"])
-        elif el["car"] == "Chevrolet":
-            tmp_obj = Chevrolet(color=el["color"],
+
+car_made = {
+    "BMW": BMW,
+    "Seat": Seat,
+    "Audi": Audi,
+    "Chevrolet": Chevrolet,
+    "Jaguar": Jaguar,
+    "Opel": Opel
+}
+
+
+def serialize(car_list: List[dict]) -> List[Union[BMW, Seat, Audi, Chevrolet, Jaguar, Opel]]:
+    return [car_made[el["car"]](color=el["color"],
                                 weight=el["weight"],
                                 transmission=el["transmission"],
-                                engine=el["engine"])
-        elif el["car"] == "Jaguar":
-            tmp_obj = Jaguar(color=el["color"],
-                             weight=el["weight"],
-                             transmission=el["transmission"],
-                             engine=el["engine"])
-        elif el["car"] == "Opel":
-            tmp_obj = Opel(color=el["color"],
-                           weight=el["weight"],
-                           transmission=el["transmission"],
-                           engine=el["engine"])
-        obj_list.append(tmp_obj)
-    return obj_list
+                                engine=el["engine"]) for el in car_list]
+
+
+class Writer:
+    def __init__(self, name: str):
+        self.name = name
+
+    def write(self, obj_list: List[Union[BMW, Seat, Audi, Chevrolet, Jaguar, Opel]]):
+        with open(self.name, "w") as f:
+            for el in obj_list:
+                data = json.dumps(el.to_json())
+                f.writelines(data)
+                f.writelines("\n")
+
 
 def main():
     reader = Reader("file.txt")
@@ -105,6 +106,8 @@ def main():
     car_list = (parser.parse())
     obj_list = serialize(car_list)
     print(obj_list)
+    writer = Writer("file.json")
+    writer.write(obj_list)
 
 
 if __name__ == '__main__':
