@@ -45,15 +45,30 @@ def matching_edge(user_list):
     return matching_words
 
 
+def avg_w_len(user_list):
+    """
+    Calculate average word length
+    :param user_list:
+    :return: Average word length
+    """
+    total = 0
+    for el in user_list:
+        total += len(el)
+    avg_len = total / len(user_list)
+    return avg_len
+
+
 def main():
     user_list = get_user_input()
-    print(f"Ви ввели: {user_list}")
+    print(f"Your list: {user_list}")
     short_word = find_shortest_word(user_list)
     print(f"Shortest word: {short_word}")
     long_word = find_longest_word(user_list)
     print(f"Longest word: {long_word}")
     matching_words = matching_edge(user_list)
     print(f"Matching words: {matching_words}")
+    avg_len = avg_w_len(user_list)
+    print(f"Average length of word: {avg_len}")
 
 
 if __name__ == '__main__':
